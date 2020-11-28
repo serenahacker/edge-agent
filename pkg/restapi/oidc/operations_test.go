@@ -834,10 +834,12 @@ func TestOperation_UserProfileHandler(t *testing.T) {
 		require.NoError(t, err)
 
 		d := &BootstrapData{
-			AuthzKeyStoreURL:  "http://localhost/authz/kms/" + uuid.New().String(),
-			OpsKeyStoreURL:    "http://localhost/ops/kms/" + uuid.New().String(),
 			UserEDVVaultURL:   "http://localhost/user/vault/" + uuid.New().String(),
 			OpsEDVVaultURL:    "http://localhost/ops/vault/" + uuid.New().String(),
+			AuthzKeyStoreURL:  "http://localhost/authz/kms/" + uuid.New().String(),
+			OpsKeyStoreURL:    "http://localhost/ops/kms/" + uuid.New().String(),
+			EDVOpsKIDURL:      "http://localhost/ops/kms/" + uuid.New().String() + "/keys/" + uuid.New().String(),
+			EDVHMACKIDURL:     "http://localhost/ops/kms/" + uuid.New().String() + "/keys/" + uuid.New().String(),
 			UserEDVCapability: string(originalZcapBytes),
 		}
 		o.httpClient = &mockHTTPClient{
@@ -877,6 +879,8 @@ func TestOperation_UserProfileHandler(t *testing.T) {
 		require.Equal(t, d.OpsEDVVaultURL, respData.OpsEDVVaultURL)
 		require.Equal(t, d.OpsKeyStoreURL, respData.OpsKeyStoreURL)
 		require.Equal(t, d.UserEDVVaultURL, respData.UserEDVVaultURL)
+		require.Equal(t, d.EDVOpsKIDURL, respData.EDVOpsKIDURL)
+		require.Equal(t, d.EDVHMACKIDURL, respData.EDVHMACKIDURL)
 
 		zCapResp := &zcapld.Capability{}
 
